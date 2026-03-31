@@ -62,5 +62,22 @@ export const api = {
   wallet: {
     getBalance: () => http.get<{ payable?: number; balance?: number }>('/wallet/'),
   },
+  gameflow: {
+    quote: ({
+      gameId,
+      lines,
+      draws,
+    }: {
+      gameId: string;
+      lines: Array<{ numbers: number[]; bonus: number | null }>;
+      draws: number;
+    }) => http.post<{ subtotal: number; serviceFee: number; total: number }>('/gameflow/draw/quote', { gameId, lines, draws }),
+  },
+  orders: {
+    draw: {
+      create: (payload: Record<string, unknown>) =>
+        http.post<{ orderId: string }>('/orders/draw/', payload),
+    },
+  },
   token: tokenStore,
 };

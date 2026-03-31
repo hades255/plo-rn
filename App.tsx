@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/store/AuthContext';
 import { ScratchCartProvider } from './src/store/ScratchCartContext';
+import { GameFlowProvider } from './src/store/GameFlowContext';
 
 function App(): React.JSX.Element {
   return (
@@ -13,9 +14,11 @@ function App(): React.JSX.Element {
       <StatusBar barStyle="dark-content" />
       <AuthProvider>
         <ScratchCartProvider>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+          <GameFlowProvider>
+            <NavigationContainer>
+              <AppNavigator />
+            </NavigationContainer>
+          </GameFlowProvider>
         </ScratchCartProvider>
       </AuthProvider>
     </SafeAreaProvider>

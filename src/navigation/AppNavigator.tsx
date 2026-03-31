@@ -11,6 +11,12 @@ import { AllDrawGamesScreen } from '../screens/home/AllDrawGamesScreen';
 import { AllScratchGamesScreen } from '../screens/home/AllScratchGamesScreen';
 import { GameHomeScreen } from '../screens/home/GameHomeScreen';
 import { ScratchGameInfoScreen } from '../screens/home/ScratchGameInfoScreen';
+import { PickNumbersScreen } from '../screens/gameflow/PickNumbersScreen';
+import { YourPlaysScreen } from '../screens/gameflow/YourPlaysScreen';
+import { ViewCartScreen } from '../screens/gameflow/ViewCartScreen';
+import { OrderSummaryScreen } from '../screens/gameflow/OrderSummaryScreen';
+import { OrderProcessingScreen } from '../screens/gameflow/OrderProcessingScreen';
+import { OrderSuccessScreen } from '../screens/gameflow/OrderSuccessScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -23,12 +29,6 @@ const appScreens: Array<{name: keyof RootStackParamList; title: string}> = [
   {name: 'PaymentMethod', title: 'Payment Method'},
   {name: 'ProcessingPayment', title: 'Processing Payment'},
   {name: 'FundsAdded', title: 'Funds Added'},
-  {name: 'PickNumbers', title: 'Pick Numbers'},
-  {name: 'YourPlays', title: 'Your Plays'},
-  {name: 'ViewCart', title: 'View Cart'},
-  {name: 'OrderSummary', title: 'Order Summary'},
-  {name: 'OrderProcessing', title: 'Order Processing'},
-  {name: 'OrderSuccess', title: 'Order Success'},
   {name: 'LuckyDream', title: 'Lucky Dream'},
   {name: 'LuckyDreamSummary', title: 'Lucky Dream Summary'},
   {name: 'LuckyHoroscope', title: 'Lucky Horoscope'},
@@ -54,6 +54,12 @@ export function AppNavigator() {
       <Stack.Screen name="AllDrawGames" component={AllDrawGamesScreen} />
       <Stack.Screen name="AllScratchGames" component={AllScratchGamesScreen} />
       <Stack.Screen name="GameHome" component={GameHomeScreen} />
+      <Stack.Screen name="PickNumbers" component={PickNumbersScreen} />
+      <Stack.Screen name="YourPlays" component={YourPlaysScreen} />
+      <Stack.Screen name="ViewCart" component={ViewCartScreen} />
+      <Stack.Screen name="OrderSummary" component={OrderSummaryScreen} />
+      <Stack.Screen name="OrderProcessing" component={OrderProcessingScreen} />
+      <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
       <Stack.Screen name="ScratchGameInfo" component={ScratchGameInfoScreen} />
       {appScreens.map(screen => (
         <Stack.Screen key={screen.name} name={screen.name}>

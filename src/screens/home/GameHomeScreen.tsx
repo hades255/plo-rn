@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { api } from '../../api/api';
+import { useGameFlow } from '../../store/GameFlowContext';
 import { RootStackParamList } from '../../types/navigation';
 import { formatDateTime, formatMoney } from '../../utils/format';
 
@@ -22,9 +23,15 @@ function randomUniqueNumbers(count: number, max: number) {
 }
 
 export function GameHomeScreen({navigation, route}: Props) {
+  const { state, dispatch } = useGameFlow();
   const game = route.params?.game;
-  const [plays, setPlays] = useState<number[][]>([]);
   const [balance, setBalance] = useState<number | null>(null);
+  useEffect(() => {
+    if (game) {
+      dispatch({ type: 'SET_GAME', game });
+    }
+  }, [dispatch, game]);
+
 
   const pricePerPlay = Number(game?.price_per_play ?? game?.pricePerPlay ?? 2);
   const pickCount = Number(game?.pickableCount ?? game?.mainPickCount ?? 5);
@@ -52,10 +59,19 @@ export function GameHomeScreen({navigation, route}: Props) {
 
   const addQuickPicks = (count: number) => {
     const max = 69;
-    const generated = Array.from({ length: count }, () =>
-      randomUniqueNumbers(pickCount, max),
+    const generated = Array.from({ length: count }, () => randomUniqueNumbers(pickCount, max));
+    generated.forEach(numbers =>
+      dispatch({
+        type: 'ADD_PLAY',
+        play: {
+          id: `play_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+          numbers,
+          bonus: 1 + Math.floor(Math.random() * 26),
+          quickPick: true,
+        },
+      }),
     );
-    setPlays(prev => [...prev, ...generated]);
+    navigation.navigate('YourPlays');
   };
 
   if (!game) {
@@ -96,11 +112,11 @@ export function GameHomeScreen({navigation, route}: Props) {
         <Text style={styles.ownPickText}>Pick your own numbers</Text>
       </TouchableOpacity>
 
-      {plays.length > 0 ? (
+      {state.plays.length > 0 ? (
         <TouchableOpacity
           style={[styles.viewPlaysBtn, {backgroundColor: actionBg}]}
           onPress={() => navigation.navigate('YourPlays')}>
-          <Text style={styles.viewPlaysText}>View Your Plays ({plays.length})</Text>
+          <Text style={styles.viewPlaysText}>View Your Plays ({state.plays.length})</Text>
         </TouchableOpacity>
       ) : null}
 
