@@ -11,7 +11,8 @@ import { RootStackParamList } from '../../types/navigation';
 type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 type Method = 'phone' | 'email';
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 
 export function SignInScreen({navigation}: Props) {
   const [method, setMethod] = useState<Method>('phone');

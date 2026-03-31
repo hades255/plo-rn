@@ -10,7 +10,8 @@ import { RootStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 const RESEND_COOLDOWN = 120;
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 
 export function ForgotPasswordScreen({navigation}: Props) {
   const [step, setStep] = useState(1);

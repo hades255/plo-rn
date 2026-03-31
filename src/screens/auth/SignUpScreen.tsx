@@ -16,7 +16,8 @@ import { RootStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 const RESEND_COOLDOWN = 120;
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 
 export function SignUpScreen({navigation, route}: Props) {
   const fromPhoneSignIn = Boolean(route.params?.fromPhoneSignIn);
