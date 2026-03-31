@@ -6,12 +6,11 @@ import {
   CommonButton,
   commonInputStyle,
 } from '../../components/AuthLayout';
+import { api } from '../../api/api';
 import { RootStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 const RESEND_COOLDOWN = 120;
-const delay = (ms: number) =>
-  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 
 export function ForgotPasswordScreen({navigation}: Props) {
   const [step, setStep] = useState(1);
@@ -34,24 +33,25 @@ export function ForgotPasswordScreen({navigation}: Props) {
   const onContinue = async () => {
     setError('');
     setLoading(true);
-    await delay(550);
 
     if (step === 1) {
-      if (!email.trim()) {
-        setError('Email is required');
-      } else {
+      try {
+        await api.auth.requestPasswordReset({ email: email.trim() });
         setStep(2);
         setCooldown(RESEND_COOLDOWN);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to send reset code');
       }
       setLoading(false);
       return;
     }
 
     if (step === 2) {
-      if (code.length !== 6) {
-        setError('Enter the 6 digit code');
-      } else {
+      try {
+        await api.auth.verifyPasswordReset({ email: email.trim(), code });
         setStep(3);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Invalid or expired code');
       }
       setLoading(false);
       return;
@@ -62,7 +62,16 @@ export function ForgotPasswordScreen({navigation}: Props) {
     } else if (password !== confirmPassword) {
       setError('Passwords do not match');
     } else {
-      navigation.replace('SignIn');
+      try {
+        await api.auth.completePasswordReset({
+          email: email.trim(),
+          code,
+          password,
+        });
+        navigation.replace('SignIn');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to reset password');
+      }
     }
     setLoading(false);
   };

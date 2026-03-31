@@ -12,14 +12,27 @@ import {
   CommonButton,
   commonInputStyle,
 } from '../../components/AuthLayout';
+import { api } from '../../api/api';
+import { useAuth } from '../../store/AuthContext';
+import { getPostAuthRedirectRoute } from '../../store/kyc';
 import { RootStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 const RESEND_COOLDOWN = 120;
-const delay = (ms: number) =>
-  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
+
+function calculateAge(isoDate: string) {
+  const today = new Date();
+  const birthDate = new Date(isoDate);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 export function SignUpScreen({navigation, route}: Props) {
+  const { signup, sendOTP, verifyOTP } = useAuth();
   const fromPhoneSignIn = Boolean(route.params?.fromPhoneSignIn);
   const initialPhone = route.params?.phone ?? '';
 
@@ -100,31 +113,47 @@ export function SignUpScreen({navigation, route}: Props) {
   const onContinue = async () => {
     setError('');
     setLoading(true);
-    await delay(550);
 
     if (step === 1) {
-      setPhoneCooldown(RESEND_COOLDOWN);
-      setStep(2);
+      const result = await sendOTP(phone.trim());
+      if (result.success) {
+        setPhoneCooldown(RESEND_COOLDOWN);
+        setStep(2);
+      } else {
+        setError(result.error || 'Failed to send code');
+      }
       setLoading(false);
       return;
     }
     if (step === 2) {
-      if (phoneCode.length !== 6) {
-        setError('Enter the 6 digit code');
-      } else {
+      const result = await verifyOTP(phone.trim(), phoneCode);
+      if (result.success) {
+        const nextRoute = await getPostAuthRedirectRoute();
+        navigation.replace(nextRoute);
+      } else if (result.status === 404) {
         setStep(3);
+      } else {
+        setError(result.error || 'Code is incorrect or has expired');
       }
       setLoading(false);
       return;
     }
     if (step === 3) {
       if (!emailCodeSent) {
-        setEmailCodeSent(true);
-        setEmailCooldown(RESEND_COOLDOWN);
-      } else if (emailCode.length === 6) {
-        setStep(4);
+        try {
+          await api.auth.sendEmailOTP({ email: email.trim() });
+          setEmailCodeSent(true);
+          setEmailCooldown(RESEND_COOLDOWN);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Failed to send code');
+        }
       } else {
-        setError('Enter the 6 digit code');
+        try {
+          await api.auth.verifyEmailOTP({ email: email.trim(), code: emailCode });
+          setStep(4);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Invalid code');
+        }
       }
       setLoading(false);
       return;
@@ -135,7 +164,30 @@ export function SignUpScreen({navigation, route}: Props) {
       setLoading(false);
       return;
     }
-    navigation.replace('Home');
+    const age = calculateAge(dateOfBirth);
+    if (!Number.isFinite(age) || age < 18) {
+      setError('You must be 18 or older to sign up');
+      setLoading(false);
+      return;
+    }
+    const result = await signup({
+      phone: phone.trim(),
+      email: email.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      username: username.trim(),
+      password,
+      dateOfBirth,
+      zipCode: zipCode.trim(),
+      state: stateName.trim(),
+      promoCode: promoCode.trim() || undefined,
+    });
+    if (result.success) {
+      const nextRoute = await getPostAuthRedirectRoute();
+      navigation.replace(nextRoute);
+    } else {
+      setError(result.error || 'Signup failed');
+    }
     setLoading(false);
   };
 

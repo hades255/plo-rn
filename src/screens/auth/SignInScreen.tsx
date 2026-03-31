@@ -6,15 +6,15 @@ import {
   CommonButton,
   commonInputStyle,
 } from '../../components/AuthLayout';
+import { useAuth } from '../../store/AuthContext';
+import { getPostAuthRedirectRoute } from '../../store/kyc';
 import { RootStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 type Method = 'phone' | 'email';
 
-const delay = (ms: number) =>
-  new Promise<void>(resolve => setTimeout(() => resolve(), ms));
-
 export function SignInScreen({navigation}: Props) {
+  const { login, sendOTPSignin, verifyOTP } = useAuth();
   const [method, setMethod] = useState<Method>('phone');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -27,17 +27,23 @@ export function SignInScreen({navigation}: Props) {
   const handlePhoneAction = async () => {
     setError('');
     setLoading(true);
-    await delay(600);
     if (!otpSent) {
-      if (!phone.trim()) {
-        setError('Phone number is required');
-      } else {
+      const result = await sendOTPSignin(phone.trim());
+      if (result.success) {
         setOtpSent(true);
+      } else {
+        setError(result.error || 'Failed to send code');
       }
-    } else if (otpCode.length !== 6) {
-      setError('Enter the 6 digit code');
     } else {
-      navigation.replace('Home');
+      const result = await verifyOTP(phone.trim(), otpCode);
+      if (result.success) {
+        const nextRoute = await getPostAuthRedirectRoute();
+        navigation.replace(nextRoute);
+      } else if (result.status === 404) {
+        navigation.replace('SignUp', { fromPhoneSignIn: true, phone: phone.trim() });
+      } else {
+        setError(result.error || 'Invalid or expired code');
+      }
     }
     setLoading(false);
   };
@@ -45,11 +51,12 @@ export function SignInScreen({navigation}: Props) {
   const handleEmailSignIn = async () => {
     setError('');
     setLoading(true);
-    await delay(600);
-    if (!email.trim() || !password.trim()) {
-      setError('Email and password are required');
+    const result = await login({ email: email.trim(), password });
+    if (result.success) {
+      const nextRoute = await getPostAuthRedirectRoute();
+      navigation.replace(nextRoute);
     } else {
-      navigation.replace('Home');
+      setError(result.error || 'Invalid email or password');
     }
     setLoading(false);
   };
