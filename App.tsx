@@ -5,15 +5,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/store/AuthContext';
+import { ScratchCartProvider } from './src/store/ScratchCartContext';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle="dark-content" />
       <AuthProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
+        <ScratchCartProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </ScratchCartProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

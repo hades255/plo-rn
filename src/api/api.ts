@@ -54,5 +54,13 @@ export const api = {
         verifiedForOrdering?: boolean;
       }>('/kyc/status'),
   },
+  games: {
+    list: (filter = '') => http.get<Array<Record<string, unknown>>>(`/games/?filter=${filter}`),
+    featured: () => http.get<Array<Record<string, unknown>>>('/games/featured'),
+    getScratchById: (id: string) => http.get<Record<string, unknown>>(`/games/scratch/${id}`),
+  },
+  wallet: {
+    getBalance: () => http.get<{ payable?: number; balance?: number }>('/wallet/'),
+  },
   token: tokenStore,
 };

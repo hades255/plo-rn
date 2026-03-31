@@ -1,3 +1,29 @@
+export type DrawGameNav = {
+  id: string;
+  slug?: string;
+  name?: string;
+  state?: string;
+  draw_time?: string;
+  cutoff_time?: string;
+  jackpot?: number | string;
+  bg_color?: string;
+  draw_color?: string;
+  price_per_play?: number | string;
+  pricePerPlay?: number | string;
+  pickableCount?: number;
+  mainPickCount?: number;
+};
+
+export type ScratchGameNav = {
+  id: string;
+  name?: string;
+  image_url?: string;
+  top_prize?: number | string;
+  price?: number | string;
+  scratchable_areas?: unknown;
+  available_tickets?: number;
+};
+
 export type RootStackParamList = {
   AuthLanding: undefined;
   SignIn: undefined;
@@ -14,7 +40,7 @@ export type RootStackParamList = {
   FundsAdded: undefined;
   AllScratchGames: undefined;
   AllDrawGames: undefined;
-  GameHome: undefined;
+  GameHome: { game: DrawGameNav } | undefined;
   PickNumbers: undefined;
   YourPlays: undefined;
   ViewCart: undefined;
@@ -25,7 +51,7 @@ export type RootStackParamList = {
   LuckyDreamSummary: undefined;
   LuckyHoroscope: undefined;
   ScratchOrderCart: undefined;
-  ScratchGameInfo: undefined;
+  ScratchGameInfo: { gameId: string; game?: ScratchGameNav } | undefined;
   ScratchTicket: undefined;
   ScratchOrderDetails: undefined;
   DrawOrderDetails: undefined;
