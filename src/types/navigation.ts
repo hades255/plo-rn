@@ -30,9 +30,9 @@ export type RootStackParamList = {
   SignUp: { fromPhoneSignIn?: boolean; phone?: string } | undefined;
   ForgotPassword: undefined;
   Home: undefined;
-  Orders: undefined;
-  DrawOrders: undefined;
-  ScratchOrders: undefined;
+  Orders: { type?: 'draw' | 'scratch'; tag?: 0 | 1 | 2 } | undefined;
+  DrawOrders: { tag?: 0 | 1 | 2 } | undefined;
+  ScratchOrders: { tag?: 0 | 1 | 2 } | undefined;
   Profile: undefined;
   AddFunds: undefined;
   PaymentMethod: undefined;
@@ -52,9 +52,9 @@ export type RootStackParamList = {
   LuckyHoroscope: undefined;
   ScratchOrderCart: undefined;
   ScratchGameInfo: { gameId: string; game?: ScratchGameNav } | undefined;
-  ScratchTicket: undefined;
-  ScratchOrderDetails: undefined;
-  DrawOrderDetails: undefined;
+  ScratchTicket: { ticketRef: string } | undefined;
+  ScratchOrderDetails: { ticketRef: string } | undefined;
+  DrawOrderDetails: { orderId: string } | undefined;
   PrizeNotifications: undefined;
   PrizeNotificationDetail: undefined;
   VerifyIdentity: undefined;

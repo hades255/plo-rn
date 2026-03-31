@@ -77,6 +77,32 @@ export const api = {
     draw: {
       create: (payload: Record<string, unknown>) =>
         http.post<{ orderId: string }>('/orders/draw/', payload),
+      list: (filter = 'active') =>
+        http.get<Array<Record<string, unknown>>>(`/orders/draw/?filter=${filter}`),
+      get: (id: string) => http.get<Record<string, unknown>>(`/orders/draw/${encodeURIComponent(id)}`),
+    },
+    scratch: {
+      listScratchable: (filter: number, { limit, offset }: { limit?: number; offset?: number } = {}) => {
+        const params = new URLSearchParams({ filter: String(filter ?? 0) });
+        if (limit != null) params.set('limit', String(limit));
+        if (offset != null) params.set('offset', String(offset));
+        return http.get<{ tickets?: Array<Record<string, unknown>>; hasMore?: boolean }>(
+          `/orders/scratch/tickets/scratchable?${params.toString()}`,
+        );
+      },
+      getTicket: (ticketRef: string, images = false) =>
+        http.get<{ ticket?: Record<string, unknown> }>(
+          `/orders/scratch/tickets/${encodeURIComponent(ticketRef)}?images=${images}`,
+        ),
+      reveal: (ticketRef: string, strokesValue: unknown = null, size = 100) =>
+        http.post(
+          `/orders/scratch/tickets/${encodeURIComponent(ticketRef)}/reveal`,
+          { strokesValue, size },
+        ),
+      getImageUrl: (assetId: string) =>
+        http.get<{ presigned_url?: string }>(
+          `/orders/scratch/ticket-image-assets/${encodeURIComponent(assetId)}`,
+        ),
     },
   },
   token: tokenStore,
