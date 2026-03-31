@@ -35,9 +35,9 @@ export type RootStackParamList = {
   ScratchOrders: { tag?: 0 | 1 | 2 } | undefined;
   Profile: undefined;
   AddFunds: undefined;
-  PaymentMethod: undefined;
-  ProcessingPayment: undefined;
-  FundsAdded: undefined;
+  PaymentMethod: { amount: number } | undefined;
+  ProcessingPayment: { amount: number; paymentIntentId?: string } | undefined;
+  FundsAdded: { amount: number } | undefined;
   AllScratchGames: undefined;
   AllDrawGames: undefined;
   GameHome: { game: DrawGameNav } | undefined;

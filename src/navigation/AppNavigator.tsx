@@ -23,22 +23,22 @@ import { ScratchOrdersScreen } from '../screens/orders/ScratchOrdersScreen';
 import { DrawOrderDetailsScreen } from '../screens/orders/DrawOrderDetailsScreen';
 import { ScratchOrderDetailsScreen } from '../screens/orders/ScratchOrderDetailsScreen';
 import { ScratchTicketScreen } from '../screens/scratch/ScratchTicketScreen';
+import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import { VerifyIdentityScreen } from '../screens/profile/VerifyIdentityScreen';
+import { AddFundsScreen } from '../screens/addfunds/AddFundsScreen';
+import { PaymentMethodScreen } from '../screens/addfunds/PaymentMethodScreen';
+import { ProcessingPaymentScreen } from '../screens/addfunds/ProcessingPaymentScreen';
+import { FundsAddedScreen } from '../screens/addfunds/FundsAddedScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const appScreens: Array<{name: keyof RootStackParamList; title: string}> = [
-  {name: 'Profile', title: 'Profile'},
-  {name: 'AddFunds', title: 'Add Funds'},
-  {name: 'PaymentMethod', title: 'Payment Method'},
-  {name: 'ProcessingPayment', title: 'Processing Payment'},
-  {name: 'FundsAdded', title: 'Funds Added'},
   {name: 'LuckyDream', title: 'Lucky Dream'},
   {name: 'LuckyDreamSummary', title: 'Lucky Dream Summary'},
   {name: 'LuckyHoroscope', title: 'Lucky Horoscope'},
   {name: 'ScratchOrderCart', title: 'Scratch Order Cart'},
   {name: 'PrizeNotifications', title: 'Prize Notifications'},
   {name: 'PrizeNotificationDetail', title: 'Prize Notification Detail'},
-  {name: 'VerifyIdentity', title: 'Verify Identity'},
   {name: 'SoftTierKyc', title: 'Soft Tier KYC'},
   {name: 'RegionBlocked', title: 'Region Blocked'},
 ];
@@ -51,6 +51,12 @@ export function AppNavigator() {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="AddFunds" component={AddFundsScreen} />
+      <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
+      <Stack.Screen name="ProcessingPayment" component={ProcessingPaymentScreen} />
+      <Stack.Screen name="FundsAdded" component={FundsAddedScreen} />
+      <Stack.Screen name="VerifyIdentity" component={VerifyIdentityScreen} />
       <Stack.Screen name="Orders" component={OrdersScreen} />
       <Stack.Screen name="DrawOrders" component={DrawOrdersScreen} />
       <Stack.Screen name="ScratchOrders" component={ScratchOrdersScreen} />

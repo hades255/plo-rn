@@ -49,10 +49,26 @@ export const api = {
     }) => http.post('/auth/password/reset/complete', { email, code, password }),
   },
   kyc: {
+    create: ({ tier }: { tier?: string } = {}) => {
+      const endpoint = tier
+        ? `/kyc/create?tier=${encodeURIComponent(tier)}`
+        : '/kyc/create';
+      return http.post<Record<string, unknown>>(endpoint, {});
+    },
+    getSession: () => http.post<Record<string, unknown>>('/kyc/session'),
     getStatus: () =>
       http.get<{
         verifiedForOrdering?: boolean;
+        verifiedForWithdrawal?: boolean;
+        kycStatus?: string;
       }>('/kyc/status'),
+  },
+  profile: {
+    get: () =>
+      http.get<{
+        user?: Record<string, unknown>;
+        balance?: { payable?: number; balance?: number };
+      }>('/profile/'),
   },
   games: {
     list: (filter = '') => http.get<Array<Record<string, unknown>>>(`/games/?filter=${filter}`),
@@ -104,6 +120,28 @@ export const api = {
           `/orders/scratch/ticket-image-assets/${encodeURIComponent(assetId)}`,
         ),
     },
+  },
+  payments: {
+    startAddFunds: ({
+      amount,
+      method,
+      returnUrl,
+    }: {
+      amount: number;
+      method: string;
+      returnUrl?: string;
+    }) =>
+      http.post<{ paymentIntentId?: string; status?: string }>(
+        '/payments/add-funds',
+        {
+          amount,
+          currency: 'USD',
+          method,
+          returnUrl,
+        },
+      ),
+    getStatus: (intentId: string) =>
+      http.get<Record<string, unknown>>(`/payments/${encodeURIComponent(intentId)}`),
   },
   token: tokenStore,
 };
