@@ -61,6 +61,8 @@ export const api = {
         verifiedForOrdering?: boolean;
         verifiedForWithdrawal?: boolean;
         kycStatus?: string;
+        softTierPassed?: boolean;
+        soft?: { result?: string };
       }>('/kyc/status'),
   },
   profile: {
@@ -69,6 +71,12 @@ export const api = {
         user?: Record<string, unknown>;
         balance?: { payable?: number; balance?: number };
       }>('/profile/'),
+    paymentMethods: {
+      list: () =>
+        http.get<{ methods?: Array<Record<string, unknown>> }>('/profile/payment-methods'),
+      remove: (id: string) =>
+        http.delete<unknown>(`/profile/payment-methods/${encodeURIComponent(id)}`),
+    },
     notifications: {
       get: () => http.get<Record<string, unknown>>('/profile/notifications'),
       update: (prefs: Record<string, unknown>) =>
@@ -97,6 +105,23 @@ export const api = {
   },
   wallet: {
     getBalance: () => http.get<{ payable?: number; balance?: number }>('/wallet/'),
+    getTransactions: ({
+      skip = 0,
+      limit = 20,
+      transaction_type,
+    }: {
+      skip?: number;
+      limit?: number;
+      transaction_type?: string;
+    } = {}) => {
+      const params = new URLSearchParams();
+      params.set('skip', String(skip));
+      params.set('limit', String(limit));
+      if (transaction_type) {
+        params.set('transaction_type', transaction_type);
+      }
+      return http.get<unknown>(`/wallet/transactions?${params.toString()}`);
+    },
   },
   gameflow: {
     quote: ({

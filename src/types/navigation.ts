@@ -34,6 +34,10 @@ export type RootStackParamList = {
   DrawOrders: { tag?: 0 | 1 | 2 } | undefined;
   ScratchOrders: { tag?: 0 | 1 | 2 } | undefined;
   Profile: undefined;
+  ProfileEdit: undefined;
+  FinancialCenter: undefined;
+  AvoidLotteryScams: undefined;
+  Withdraw: undefined;
   AddFunds: undefined;
   PaymentMethod: { amount: number } | undefined;
   ProcessingPayment: { amount: number; paymentIntentId?: string } | undefined;

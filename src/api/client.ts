@@ -1,15 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
 
 const TOKEN_STORAGE_KEY = 'plotto:auth:token';
 
-const devBase =
-  Platform.OS === 'android'
-    ? 'http://10.0.2.2:8000/api'
-    : 'http://localhost:8000/api';
+const devBase = 'http://10.0.2.2:8000/api';
 
-export const API_BASE_URL =
-  devBase;
+export const API_BASE_URL = devBase;
 
 type RequestOptions = Omit<RequestInit, 'headers'> & {
   headers?: Record<string, string>;
@@ -32,7 +27,10 @@ async function removeToken() {
   await AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
 }
 
-async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+async function request<T>(
+  endpoint: string,
+  options: RequestOptions = {},
+): Promise<T> {
   const token = await getToken();
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
@@ -52,11 +50,11 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
       await removeToken();
     }
     const detailMessage =
-      typeof (payload as {detail?: unknown})?.detail === 'string'
-        ? (payload as {detail: string}).detail
+      typeof (payload as { detail?: unknown })?.detail === 'string'
+        ? (payload as { detail: string }).detail
         : undefined;
     const message =
-      (payload as {message?: string})?.message ||
+      (payload as { message?: string })?.message ||
       detailMessage ||
       `HTTP ${response.status}`;
     const err = new Error(message) as ApiError;
@@ -86,6 +84,10 @@ function patch<T>(endpoint: string, body?: unknown) {
   });
 }
 
+function del<T>(endpoint: string) {
+  return request<T>(endpoint, { method: 'DELETE' });
+}
+
 export const tokenStore = {
   get: getToken,
   set: setToken,
@@ -96,4 +98,5 @@ export const http = {
   get,
   post,
   patch,
+  delete: del,
 };

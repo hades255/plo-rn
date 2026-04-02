@@ -33,6 +33,10 @@ import { SpendingLimitsScreen } from '../screens/profile/SpendingLimitsScreen';
 import { TermsOfServiceScreen } from '../screens/profile/TermsOfServiceScreen';
 import { CoolOffScreen } from '../screens/profile/CoolOffScreen';
 import { SettingsScreen } from '../screens/profile/SettingsScreen';
+import { ProfileEditScreen } from '../screens/profile/ProfileEditScreen';
+import { FinancialCenterScreen } from '../screens/profile/FinancialCenterScreen';
+import { AvoidLotteryScamsScreen } from '../screens/profile/AvoidLotteryScamsScreen';
+import { WithdrawScreen } from '../screens/profile/WithdrawScreen';
 import { AddFundsScreen } from '../screens/addfunds/AddFundsScreen';
 import { PaymentMethodScreen } from '../screens/addfunds/PaymentMethodScreen';
 import { ProcessingPaymentScreen } from '../screens/addfunds/ProcessingPaymentScreen';
@@ -60,6 +64,10 @@ export function AppNavigator() {
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
+      <Stack.Screen name="FinancialCenter" component={FinancialCenterScreen} />
+      <Stack.Screen name="AvoidLotteryScams" component={AvoidLotteryScamsScreen} />
+      <Stack.Screen name="Withdraw" component={WithdrawScreen} />
       <Stack.Screen name="AddFunds" component={AddFundsScreen} />
       <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
       <Stack.Screen name="ProcessingPayment" component={ProcessingPaymentScreen} />

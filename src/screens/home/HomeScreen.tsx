@@ -69,6 +69,17 @@ export function HomeScreen({navigation}: Props) {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.profileRow}>
+        <TouchableOpacity style={styles.tertiaryAction} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.tertiaryActionText}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tertiaryAction}
+          onPress={() => navigation.navigate('Orders', { type: 'draw', tag: 0 })}>
+          <Text style={styles.tertiaryActionText}>Orders</Text>
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.sectionTitle}>Featured Games</Text>
       {loading ? (
         <View style={styles.centered}>
@@ -150,6 +161,24 @@ const styles = StyleSheet.create({
   },
   secondaryActionText: {
     color: '#111827',
+    fontWeight: '600',
+  },
+  profileRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 16,
+  },
+  tertiaryAction: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+    backgroundColor: '#FAFAFA',
+  },
+  tertiaryActionText: {
+    color: '#374151',
     fontWeight: '600',
   },
   sectionTitle: {
