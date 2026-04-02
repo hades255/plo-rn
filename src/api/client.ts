@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TOKEN_STORAGE_KEY = 'plotto:auth:token';
 
-const devBase = 'http://10.0.2.2:8000/api';
+const devBase = 'https://api.playplotto.com/api';
 
 export const API_BASE_URL = devBase;
 
