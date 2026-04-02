@@ -25,6 +25,14 @@ import { ScratchOrderDetailsScreen } from '../screens/orders/ScratchOrderDetails
 import { ScratchTicketScreen } from '../screens/scratch/ScratchTicketScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { VerifyIdentityScreen } from '../screens/profile/VerifyIdentityScreen';
+import { HelpSupportScreen } from '../screens/profile/HelpSupportScreen';
+import { PrivacyPolicyScreen } from '../screens/profile/PrivacyPolicyScreen';
+import { ResponsibleGamingScreen } from '../screens/profile/ResponsibleGamingScreen';
+import { SelfExclusionScreen } from '../screens/profile/SelfExclusionScreen';
+import { SpendingLimitsScreen } from '../screens/profile/SpendingLimitsScreen';
+import { TermsOfServiceScreen } from '../screens/profile/TermsOfServiceScreen';
+import { CoolOffScreen } from '../screens/profile/CoolOffScreen';
+import { SettingsScreen } from '../screens/profile/SettingsScreen';
 import { AddFundsScreen } from '../screens/addfunds/AddFundsScreen';
 import { PaymentMethodScreen } from '../screens/addfunds/PaymentMethodScreen';
 import { ProcessingPaymentScreen } from '../screens/addfunds/ProcessingPaymentScreen';
@@ -57,6 +65,14 @@ export function AppNavigator() {
       <Stack.Screen name="ProcessingPayment" component={ProcessingPaymentScreen} />
       <Stack.Screen name="FundsAdded" component={FundsAddedScreen} />
       <Stack.Screen name="VerifyIdentity" component={VerifyIdentityScreen} />
+      <Stack.Screen name="HelpSupport" component={HelpSupportScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+      <Stack.Screen name="ResponsibleGaming" component={ResponsibleGamingScreen} />
+      <Stack.Screen name="SelfExclusion" component={SelfExclusionScreen} />
+      <Stack.Screen name="SpendingLimits" component={SpendingLimitsScreen} />
+      <Stack.Screen name="TermsOfService" component={TermsOfServiceScreen} />
+      <Stack.Screen name="CoolOff" component={CoolOffScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Orders" component={OrdersScreen} />
       <Stack.Screen name="DrawOrders" component={DrawOrdersScreen} />
       <Stack.Screen name="ScratchOrders" component={ScratchOrdersScreen} />

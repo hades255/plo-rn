@@ -146,6 +146,31 @@ export function ProfileScreen({ navigation }: Props) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.menuItem}
+        onPress={() => navigation.navigate('Settings')}>
+        <Text style={styles.menuText}>Settings</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate('HelpSupport')}>
+        <Text style={styles.menuText}>Help & Support</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate('PrivacyPolicy')}>
+        <Text style={styles.menuText}>Privacy Policy</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate('TermsOfService')}>
+        <Text style={styles.menuText}>Terms of Service</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate('ResponsibleGaming')}>
+        <Text style={styles.menuText}>Responsible Gaming</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
         onPress={() => navigation.navigate('VerifyIdentity')}>
         <Text style={styles.menuText}>Identity Verification</Text>
       </TouchableOpacity>

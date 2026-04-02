@@ -69,6 +69,26 @@ export const api = {
         user?: Record<string, unknown>;
         balance?: { payable?: number; balance?: number };
       }>('/profile/'),
+    notifications: {
+      get: () => http.get<Record<string, unknown>>('/profile/notifications'),
+      update: (prefs: Record<string, unknown>) =>
+        http.patch<Record<string, unknown>>('/profile/notifications', prefs),
+    },
+    support: {
+      contact: (data: { name: string; email: string; message: string }) =>
+        http.post('/profile/support/contact', data),
+    },
+    responsibleGaming: {
+      limits: {
+        get: () => http.get<Record<string, unknown>>('/profile/responsible-gaming/limits'),
+        add: (data: { type: string; amount: number }) =>
+          http.post<Record<string, unknown>>('/profile/responsible-gaming/limits', data),
+      },
+      coolOff: (data: { periodDays: number }) =>
+        http.post('/profile/responsible-gaming/cool-off', data),
+      selfExclusion: (data: { periodYears: number }) =>
+        http.post('/profile/responsible-gaming/self-exclusion', data),
+    },
   },
   games: {
     list: (filter = '') => http.get<Array<Record<string, unknown>>>(`/games/?filter=${filter}`),

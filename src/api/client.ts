@@ -79,6 +79,13 @@ function post<T>(endpoint: string, body?: unknown) {
   });
 }
 
+function patch<T>(endpoint: string, body?: unknown) {
+  return request<T>(endpoint, {
+    method: 'PATCH',
+    body: body == null ? undefined : JSON.stringify(body),
+  });
+}
+
 export const tokenStore = {
   get: getToken,
   set: setToken,
@@ -88,4 +95,5 @@ export const tokenStore = {
 export const http = {
   get,
   post,
+  patch,
 };

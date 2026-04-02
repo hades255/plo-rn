@@ -58,6 +58,14 @@ export type RootStackParamList = {
   PrizeNotifications: undefined;
   PrizeNotificationDetail: undefined;
   VerifyIdentity: undefined;
+  HelpSupport: undefined;
+  PrivacyPolicy: undefined;
+  ResponsibleGaming: undefined;
+  SelfExclusion: undefined;
+  SpendingLimits: undefined;
+  TermsOfService: undefined;
+  CoolOff: undefined;
+  Settings: undefined;
   SoftTierKyc: undefined;
   RegionBlocked: undefined;
 };
